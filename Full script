@@ -1,0 +1,107 @@
+local player =game.Players.LocalPlayer
+local chr = player.Character
+local normal = workspace.Coins:GetChildren()
+
+local speed = CFrame.new(-0.299986839, 0.5, -29.4789734)
+local ground = CFrame.new(-0.300003052, 0.89999962, 25.7499924)
+local moneypart = CFrame.new(-0.249992371, 0.899994, -142490.719, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+
+function automaticcoin()
+    local off = false
+	    local autocoin = true
+	    local autofly = false
+	    getgenv().enabled = false
+	    if autoflyrunning == false then
+	    print("Auto Coin Enabled")
+	    getgenv().enabled = autocoin
+          while getgenv().enabled do
+            task.wait()
+            local player = game.Players.LocalPlayer
+	        local chr = player.Character
+            for i, child in ipairs(normal) do
+              task.wait()
+              local x = child.Position.X local y = child.position.Y local z = child.position.Z
+              local place = CFrame.new(x, y, z)
+              if chr ~= nil and child.Transparency==0 then
+                  chr:PivotTo(place)
+                  print("Teleported to "..child.Name.." ("..tostring(place)..")")
+        else
+            Rayfield:Notify("Can't Enable Auto Coin","Please wait for Auto Fly to wait at the money part.",10010348543) -- (t,c,image)
+            Dropdown:Set("Auto Fly")
+       
+              end
+            end
+          end  
+	    end     
+end          
+local autoflyrunning = false
+
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local Window = Rayfield:CreateWindow({
+	Name = "How Far Can You Fly Autofarm",
+	LoadingTitle = "How Far Can You Fly Autofarm",
+	LoadingSubtitle = "Auto Coin and Auto Fly",
+	ConfigurationSaving = {
+		Enabled = false,
+		FileName = "noo"
+	},
+	KeySystem = false,
+	KeySettings = {
+		Title = "no",
+		Subtitle = "no",
+		Note = "no",
+		Key = "no"
+	}
+})
+
+local Tab = Window:CreateTab("Farming")
+
+local Dropdown = Tab:CreateDropdown({
+	Name = "Autofarm Type",
+	Options = {"Off","Auto Coin","Auto Fly"},
+	CurrentOption = "Off",
+	Flag = "Autofarm",
+	Callback = function(Option)
+	    
+	    --Off
+	    if Option == "Off" then
+	      local off = true
+	      local autocoin = false
+	      local autofly = false
+	      getgenv().enabled = false
+	      task.wait(2)
+	      print("Autofarm Disabled")
+	      
+	      --Auto Coin
+	    elseif Option == "Auto Coin" then
+	      automaticcoin()
+        
+        --Auto Fly
+	    elseif Option == "Auto Fly" then
+	      local off = false
+	      local autocoin = false
+	      local autofly = true
+	      print("Auto Fly Enabled")
+	      getgenv().enabled = autofly
+	      while getgenv().enabled do
+	        local autoflyrunning=true
+            local player =game.Players.LocalPlayer
+            local chr = player.Character
+            if chr~=nil then
+              chr:PivotTo(ground)
+              task.wait()
+              chr:PivotTo(speed)
+              task.wait()
+              chr:PivotTo(moneypart)
+              print("Teleported to moneypart")
+              local autoflyrunning=false
+              task.wait(7)
+            else
+              print("chr=nil")
+            end
+          end
+        end
+	  end    
+	end,
+})
